@@ -1,23 +1,23 @@
-import { DefaultUi, Player, Youtube } from '@vime/react'
+import { DefaultUi, Player, Youtube, Video } from "@vime/react";
 import {
   CaretRight,
   DiscordLogo,
   FileArrowDown,
   Lightning,
-} from 'phosphor-react'
-import '@vime/core/themes/default.css'
-import { useGetLessonBySlugQuery } from '../graphql/generated'
+} from "phosphor-react";
+import "@vime/core/themes/default.css";
+import { useGetLessonBySlugQuery } from "../graphql/generated";
 
 interface VideoProps {
-  lessonSlug: string
+  lessonSlug: string;
 }
 
-export function Video(props: VideoProps) {
+export function VideoPlay(props: VideoProps) {
   const { data } = useGetLessonBySlugQuery({
     variables: {
       slug: props.lessonSlug,
     },
-  })
+  });
 
   // verifica se tem o data.lesson
   if (!data || !data.lesson) {
@@ -25,16 +25,19 @@ export function Video(props: VideoProps) {
       <div className="flex-1">
         <p>Carregando...</p>
       </div>
-    )
+    );
   }
+
   return (
     <div className="flex-1">
       <div className="bg-black flex justify-center">
         <div className="h-full w-full max-w-[1100px] max-h-[60vh] aspect-video">
           <Player>
-            <Youtube videoId={data.lesson.videoId} />
+            <Youtube cookies={false} videoId={data.lesson.videoId} />
             <DefaultUi />
           </Player>
+
+          
         </div>
       </div>
       <div className="p-8 max-w-[1100px] mx-auto">
@@ -123,5 +126,5 @@ export function Video(props: VideoProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
